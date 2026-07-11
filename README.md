@@ -2,6 +2,10 @@
 
 Welcome to the official standard library for the Mysz programming language. This library provides essential building blocks, fundamental data structures, memory management primitives, basic input/output utilities, and panic handling capabilities.
 
+
+> **Note**
+> This project requires [mysz-lang/mysz-runtime](https://github.com/mysz-lang/mysz-runtime) to work. Please ensure it is available when using mysz-std
+
 ## **Modules Overview**
 
 The standard library consists of the following files:
