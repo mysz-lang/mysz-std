@@ -6,6 +6,9 @@ Welcome to the official standard library for the Mysz programming language. This
 > **Note**
 > This project requires [mysz-lang/mysz-runtime](https://github.com/mysz-lang/mysz-runtime) to work. Please ensure it is available when using mysz-std
 
+> **Note**
+> This project is a work in progress. Function names, struct field names, and other API naming may change between updates.
+
 ## **Modules Overview**
 
 The standard library consists of the following files:
