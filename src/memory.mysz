@@ -1,0 +1,11 @@
+// allocate <size> bytes onto the heap
+extern fn mysz_alloc<T>(size: int): ptr<T>;
+
+// allocation for easier working out onto the heap
+extern fn mysz_calloc<T>(count: int, size: int): ptr<T>;
+
+// change the size of an allocation
+extern fn mysz_realloc<T>(val: ptr<T>, size: int);
+
+// free an allocation
+extern fn mysz_free<T>(val: ptr<T>);

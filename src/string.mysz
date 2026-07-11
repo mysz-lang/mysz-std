@@ -1,0 +1,13 @@
+struct MyszString {
+    length: int,
+    data: ptr<char>,
+};
+
+// make new String
+extern fn mysz_string_new(val: str): MyszString;
+
+// free a String type
+extern fn mysz_string_destroy(val: ptr<MyszString>);
+
+// compare two different String types' lengths and data (if lengths match)
+extern fn mysz_string_compare(a: ptr<MyszString>, b: ptr<MyszString>);

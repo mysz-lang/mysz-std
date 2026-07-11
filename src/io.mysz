@@ -1,0 +1,16 @@
+use std::string;
+
+// print str type
+extern fn print_str(val: str);
+
+// print String type
+extern fn print_String(val: ptr<MyszString>);
+
+// print int type
+extern fn print_int(val: int);
+
+// print bool type
+extern fn print_bool(val: bool);
+
+// print char type
+extern fn print_char(val: char);
