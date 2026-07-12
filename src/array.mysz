@@ -5,19 +5,26 @@ struct MyszArray<T> {
     data: ptr<T>,
 };
 
-// use this for static sizing (must input byte-size of the type your goint to store in the array)
-extern fn mysz_array_init<T>(arr: ptr<MyszArray<T>>, elementSize: int);
-
-// use this for dynamic sizing (no need to pass a byte-size of the type your going to store in the array)
+// Initialise the array
 fn pub MyszArray_init<T>(arr: ptr<MyszArray<T>>) {
+    extern fn mysz_array_init<T>(arr: ptr<MyszArray<T>>, elementSize: int);
     mysz_array_init::<T>(arr, sizeof(T)); 
 };
 
 // Ensures capacity for at least `minCapacity` elements, growing if needed.
-extern fn mysz_array_reserve<T>(arr: ptr<MyszArray<T>>, minCapacity: int);
+fn pub MyszArray_reserve<T>(arr: ptr<MyszArray<T>>, minCapacity: int) {
+    extern fn mysz_array_reserve<T>(arr: ptr<MyszArray<T>>, minCapacity: int);
+    mysz_array_reserve::<T>(arr, minCapacity);
+};
 
 // Push element onto the end of the array
-extern fn mysz_array_push<T>(arr: ptr<MyszArray<T>>, element: ptr<T>);
+fn pub MyszArray_push<T>(arr: ptr<MyszArray<T>>, element: ptr<T>) {
+    extern fn mysz_array_push<T>(arr: ptr<MyszArray<T>>, element: ptr<T>);
+    mysz_array_push::<T>(arr, element);
+};
 
 // Free the array from heap
-extern fn mysz_array_destroy<T>(arr: ptr<MyszArray<T>>);
+fn pub MyszArray_destroy<T>(arr: ptr<MyszArray<T>>) {
+    extern fn mysz_array_destroy<T>(arr: ptr<MyszArray<T>>);
+    mysz_array_destroy::<T>(arr);
+};

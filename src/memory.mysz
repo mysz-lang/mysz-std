@@ -1,11 +1,23 @@
 // allocate <size> bytes onto the heap
-extern fn mysz_alloc<T>(size: int): ptr<T>;
+fn pub malloc<T>(size: int): ptr<T> {
+    extern fn mysz_alloc<T>(size: int): ptr<T>;
+    return mysz_alloc::<T>(size);
+};
 
 // allocation for easier working out onto the heap
-extern fn mysz_calloc<T>(count: int, size: int): ptr<T>;
+fn pub calloc<T>(count: int, size: int): ptr<T> {
+    extern fn mysz_calloc<T>(count: int, size: int): ptr<T>;
+    return mysz_calloc::<T>(count, size);
+};
 
 // change the size of an allocation
-extern fn mysz_realloc<T>(val: ptr<T>, size: int);
+fn pub realloc<T>(val: ptr<T>, size: int) {
+    extern fn mysz_realloc<T>(val: ptr<T>, size: int);
+    mysz_realloc::<T>(val, size);
+};
 
 // free an allocation
-extern fn mysz_free<T>(val: ptr<T>);
+fn pub mfree<T>(val: ptr<T>) {
+    extern fn mysz_free<T>(val: ptr<T>);
+    mysz_free::<T>(val);
+};

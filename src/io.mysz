@@ -1,16 +1,31 @@
-use std::string;
+use src::string;
 
 // print str type
-extern fn print_str(val: str);
+fn pub str_print(val: str) {
+    extern fn print_str(val: str);
+    print_str(val);
+};
 
 // print String type
-extern fn print_String(val: ptr<MyszString>);
+fn pub String_print(val: ptr<MyszString>) {
+    extern fn print_String(val: ptr<MyszString>);
+    print_String(val);
+};
 
 // print int type
-extern fn print_int(val: int);
+fn pub int_print(val: int) {
+    extern fn print_int(val: int);
+    print_int(val);
+};
 
 // print bool type
-extern fn print_bool(val: bool);
+fn pub bool_print(val: bool) {
+    extern fn print_bool(val: bool);
+    print_bool(val);
+};
 
 // print char type
-extern fn print_char(val: char);
+fn pub char_print(val: char) {
+    extern fn print_char(val: char);
+    print_char(val);
+};
