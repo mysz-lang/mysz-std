@@ -1,4 +1,4 @@
-use src::string;
+use std::string;
 
 // print str type
 fn pub str_print(val: str) {
