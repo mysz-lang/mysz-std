@@ -1,0 +1,299 @@
+use std::hash;
+use std::vec;
+use std::panic;
+use std::memory;
+
+// Hash Maps
+
+struct HashEntry<K, V> {
+    key: K,
+    value: V,
+    is_occupied: bool,
+};
+
+struct HashMap<K, V> {
+    buckets: Vec<HashEntry<K, V>>,
+    length: uint,
+};
+
+fn pub HashMap_init<K, V>(map: ptr<HashMap<K, V>>) {
+    (^map).length = 0;
+    
+    var count: uint = 16;
+    var elem_size = sizeof(HashEntry<K, V>);
+    var data = malloc::<HashEntry<K, V>>(count * elem_size);
+    
+    (^map).buckets.length = 0;
+    (^map).buckets.capacity = count;
+    (^map).buckets.elementSize = elem_size;
+    (^map).buckets.data = data;
+
+    for (var i = 0; i < count; i = i + 1) {
+        var entry = &((^map).buckets.data[i]);
+        (^entry).is_occupied = false;
+    };
+};
+
+fn pub HashMap_insert<K, V>(map: ptr<HashMap<K, V>>, key: K, value: V) {
+    var raw_hash: uint = hash_bytes::<K>(&key);
+    var capacity: uint = (^map).buckets.capacity;
+    var index: uint = raw_hash % capacity;
+
+    for (var i = 0; i < capacity; i = i + 1) {
+        var entry = &((^map).buckets.data[index]);
+
+        if (!(^entry).is_occupied) {
+            (^entry).key = key;
+            (^entry).value = value;
+            (^entry).is_occupied = true;
+            (^map).length = (^map).length + 1;
+            return;
+        };
+
+        if ((^entry).key == key) {
+            (^entry).value = value;
+            return;
+        };
+
+        index = (index + 1) % capacity;
+    };
+
+    mysz_panic("HashMap_insert: Hash map is full!");
+};
+
+fn pub HashMap_get<K, V>(map: ptr<HashMap<K, V>>, key: K): V {
+    var raw_hash: uint = hash_bytes::<K>(&key);
+    var capacity: uint = (^map).buckets.capacity;
+    var index: uint = raw_hash % capacity;
+
+    for (var i = 0; i < capacity; i = i + 1) {
+        var entry = &((^map).buckets.data[index]);
+
+        if (!(^entry).is_occupied) {
+            mysz_panic("HashMap_get: Key not found");
+        };
+
+        if ((^entry).key == key) {
+            return (^entry).value;
+        };
+
+        index = (index + 1) % capacity;
+    };
+
+    mysz_panic("HashMap_get: Key not found");
+
+    var dummy: V;
+    return dummy; // unreachable
+};
+
+fn pub HashMap_remove<K, V>(map: ptr<HashMap<K, V>>, key: K) {
+    var raw_hash: uint = hash_bytes::<K>(&key);
+    var capacity: uint = (^map).buckets.capacity;
+    var i: uint = raw_hash % capacity;
+
+    for (var step = 0; step < capacity; step = step + 1) {
+        var entry = &((^map).buckets.data[i]);
+
+        if (!(^entry).is_occupied) {
+            return;
+        };
+
+        if ((^entry).key == key) {
+            (^entry).is_occupied = false;
+            (^map).length = (^map).length - 1;
+
+            var j: uint = (i + 1) % capacity;
+            var count: uint = 0;
+            
+            while (count < capacity) {
+                count = count + 1;
+                
+                var j_entry_ptr = &((^map).buckets.data[j]);
+
+                if (!(^j_entry_ptr).is_occupied) {
+                    break;
+                };
+
+                var k: uint = hash_bytes::<K>(&(^j_entry_ptr).key) % capacity;
+
+                var shift = false;
+                if (i < j) {
+                    if (k <= i) {
+                        shift = true;
+                    };
+                    if (k > j) {
+                        shift = true;
+                    };
+                } else {
+                    if (k <= i) {
+                        if (k > j) {
+                            shift = true;
+                        };
+                    };
+                };
+
+                if (shift) {
+                    var i_entry_ptr = &((^map).buckets.data[i]);
+                    var temp_key: K = (^j_entry_ptr).key;
+                    var temp_value: V = (^j_entry_ptr).value;
+                    
+                    (^i_entry_ptr).key = temp_key;
+                    (^i_entry_ptr).value = temp_value;
+                    (^i_entry_ptr).is_occupied = true;
+                    
+                    (^j_entry_ptr).is_occupied = false;
+                    
+                    i = j;
+                };
+
+                j = (j + 1) % capacity;
+            };
+
+            return;
+        };
+
+        i = (i + 1) % capacity;
+    };
+};
+
+// Hash Sets
+
+struct HashSetEntry<K> {
+    key: K,
+    is_occupied: bool,
+};
+
+struct HashSet<K> {
+    buckets: Vec<HashSetEntry<K>>,
+    length: uint,
+};
+
+fn pub HashSet_init<K>(set: ptr<HashSet<K>>) {
+    (^set).length = 0;
+    
+    var count: uint = 16;
+    var elem_size = sizeof(HashSetEntry<K>);
+    var data = malloc::<HashSetEntry<K>>(count * elem_size);
+    
+    (^set).buckets.length = 0;
+    (^set).buckets.capacity = count;
+    (^set).buckets.elementSize = elem_size;
+    (^set).buckets.data = data;
+
+    for (var i = 0; i < count; i = i + 1) {
+        var entry = &((^set).buckets.data[i]);
+        (^entry).is_occupied = false;
+    };
+};
+
+fn pub HashSet_insert<K>(set: ptr<HashSet<K>>, key: K) {
+    var raw_hash: uint = hash_bytes::<K>(&key);
+    var capacity: uint = (^set).buckets.capacity;
+    var index: uint = raw_hash % capacity;
+
+    for (var i = 0; i < capacity; i = i + 1) {
+        var entry = &((^set).buckets.data[index]);
+
+        if (!(^entry).is_occupied) {
+            (^entry).key = key;
+            (^entry).is_occupied = true;
+            (^set).length = (^set).length + 1;
+            return;
+        };
+
+        if ((^entry).key == key) {
+            return;
+        };
+
+        index = (index + 1) % capacity;
+    };
+
+    mysz_panic("HashSet_insert: Hash set is full!");
+};
+
+fn pub HashSet_contains<K>(set: ptr<HashSet<K>>, key: K): bool {
+    var raw_hash: uint = hash_bytes::<K>(&key);
+    var capacity: uint = (^set).buckets.capacity;
+    var index: uint = raw_hash % capacity;
+
+    for (var i = 0; i < capacity; i = i + 1) {
+        var entry = &((^set).buckets.data[index]);
+
+        if (!(^entry).is_occupied) {
+            return false;
+        };
+
+        if ((^entry).key == key) {
+            return true;
+        };
+
+        index = (index + 1) % capacity;
+    };
+
+    return false;
+};
+
+fn pub HashSet_remove<K>(set: ptr<HashSet<K>>, key: K) {
+    var raw_hash: uint = hash_bytes::<K>(&key);
+    var capacity: uint = (^set).buckets.capacity;
+    var i: uint = raw_hash % capacity;
+
+    for (var step = 0; step < capacity; step = step + 1) {
+        var entry = &((^set).buckets.data[i]);
+
+        if (!(^entry).is_occupied) {
+            return;
+        };
+
+        if ((^entry).key == key) {
+            (^entry).is_occupied = false;
+            (^set).length = (^set).length - 1;
+
+            var j: uint = (i + 1) % capacity;
+            var count: uint = 0;
+            
+            while (count < capacity) {
+                count = count + 1;
+                
+                var j_entry_ptr = &((^set).buckets.data[j]);
+
+                if (!(^j_entry_ptr).is_occupied) {
+                    break;
+                };
+
+                var k: uint = hash_bytes::<K>(&(^j_entry_ptr).key) % capacity;
+
+                var shift = false;
+                if (i < j) {
+                    if (k <= i) {
+                        shift = true;
+                    };
+                    if (k > j) {
+                        shift = true;
+                    };
+                } else {
+                    if (k <= i) {
+                        if (k > j) {
+                            shift = true;
+                        };
+                    };
+                };
+
+                if (shift) {
+                    var i_entry_ptr = &((^set).buckets.data[i]);
+                    var temp_key: K = (^j_entry_ptr).key;
+                    (^i_entry_ptr).key = temp_key;
+                    (^i_entry_ptr).is_occupied = true;
+                    (^j_entry_ptr).is_occupied = false;
+                    i = j;
+                };
+
+                j = (j + 1) % capacity;
+            };
+
+            return;
+        };
+
+        i = (i + 1) % capacity;
+    };
+};

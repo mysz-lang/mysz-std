@@ -1,0 +1,30 @@
+struct Vec<T> {
+    length: uint,
+    capacity: uint,
+    elementSize: uint,
+    data: ptr<T>,
+};
+
+// Initialise the vector
+fn pub Vec_init<T>(arr: ptr<Vec<T>>) {
+    extern fn mysz_array_init<T>(arr: ptr<Vec<T>>, elementSize: uint);
+    mysz_array_init::<T>(arr, sizeof(T)); 
+};
+
+// Ensures capacity for at least `minCapacity` elements, growing if needed.
+fn pub Vec_reserve<T>(arr: ptr<Vec<T>>, minCapacity: uint) {
+    extern fn mysz_array_reserve<T>(arr: ptr<Vec<T>>, minCapacity: uint);
+    mysz_array_reserve::<T>(arr, minCapacity);
+};
+
+// Push element onto the end of the vector
+fn pub Vec_push<T>(arr: ptr<Vec<T>>, element: ptr<T>) {
+    extern fn mysz_array_push<T>(arr: ptr<Vec<T>>, element: ptr<T>);
+    mysz_array_push::<T>(arr, element);
+};
+
+// Free the vector from heap
+fn pub Vec_destroy<T>(arr: ptr<Vec<T>>) {
+    extern fn mysz_array_destroy<T>(arr: ptr<Vec<T>>);
+    mysz_array_destroy::<T>(arr);
+};

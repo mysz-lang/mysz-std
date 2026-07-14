@@ -1,0 +1,6 @@
+fn pub hash_bytes<T>(key: ptr<T>): uint {
+    var size = sizeof(T);
+    extern fn mysz_hash_bytes<T>(key: ptr<T>, size: int): uint;
+    
+    return mysz_hash_bytes::<T>(key, size);
+};

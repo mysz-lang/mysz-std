@@ -1,22 +1,22 @@
-struct MyszString {
-    length: int,
+struct String {
+    length: uint,
     data: ptr<char>,
 };
 
 // make new String
-fn pub MyszString_init(val: str): MyszString {
-    extern fn mysz_string_new(val: str): MyszString;
+fn pub String_init(val: str): String {
+    extern fn mysz_string_new(val: str): String;
     return mysz_string_new(val);
 };
 
 // free a String type
-fn pub MyszString_destroy(val: ptr<MyszString>) {
-    extern fn mysz_string_destroy(val: ptr<MyszString>);
+fn pub String_destroy(val: ptr<String>) {
+    extern fn mysz_string_destroy(val: ptr<String>);
     mysz_string_destroy(val);
 };
 
 // compare two different String types' lengths and data (if lengths match)
-fn pub MyszString_compare(a: ptr<MyszString>, b: ptr<MyszString>): int {
-    extern fn mysz_string_compare(a: ptr<MyszString>, b: ptr<MyszString>): int;
+fn pub String_compare(a: ptr<String>, b: ptr<String>): int {
+    extern fn mysz_string_compare(a: ptr<String>, b: ptr<String>): int;
     return mysz_string_compare(a, b);
 };

@@ -7,8 +7,8 @@ fn pub str_print(val: str) {
 };
 
 // print String type
-fn pub String_print(val: ptr<MyszString>) {
-    extern fn print_String(val: ptr<MyszString>);
+fn pub String_print(val: ptr<String>) {
+    extern fn print_String(val: ptr<String>);
     print_String(val);
 };
 
@@ -16,6 +16,17 @@ fn pub String_print(val: ptr<MyszString>) {
 fn pub int_print(val: int) {
     extern fn print_int(val: int);
     print_int(val);
+};
+
+// print uint type
+fn pub uint_print(val: uint) {
+    extern fn print_uint(val: uint);
+    print_uint(val);
+};
+
+fn pub gk_print<T>(pattern: str, val: ptr<T>) {
+    extern fn print_genik<T>(pattern: str, val: ptr<T>);
+    print_genik::<T>(pattern, val);
 };
 
 // print bool type
