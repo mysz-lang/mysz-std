@@ -182,8 +182,7 @@ Basic functions to display values on the standard output console.
 | `uint_print(val: uint)` | Prints an unsigned 64-bit integer |
 | `bool_print(val: bool)` | Prints `true` or `false` |
 | `char_print(val: char)` | Prints a single character |
-| `ptr_print(val: ptr<void>)` | Prints a pointer address in hexadecimal |
-
+| `gk_print<T>(pattern: str, val: ptr<T>)` | Prints a generic based on a C-format pattern string (check runtime libraries implementation for supported patterns) |
 **Example:**
 
 ```mysz
