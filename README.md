@@ -258,7 +258,7 @@ struct String {
 
 | Function | Description |
 |----------|-------------|
-| `String_new(val: str): String` | Allocates and initializes a new `String` from a raw string literal |
+| `String_init(val: str): String` | Allocates and initializes a new `String` from a raw string literal |
 | `String_destroy(val: ptr<String>)` | Frees the allocated memory occupied by a `String` |
 | `String_compare(a: ptr<String>, b: ptr<String>): int` | Compares two `String` objects, returning 0 if equal |
 
@@ -267,7 +267,7 @@ struct String {
 ```mysz
 use src::string;
 
-var s = String_new("Hello, World!");
+var s = String_init("Hello, World!");
 String_destroy(&s);
 ```
 
