@@ -8,7 +8,7 @@ struct Vec<T> {
 // Initialise the vector
 fn pub Vec_init<T>(arr: ptr<Vec<T>>) {
     extern fn mysz_array_init<T>(arr: ptr<Vec<T>>, elementSize: uint);
-    mysz_array_init::<T>(arr, sizeof(T)); 
+    mysz_array_init::<T>(arr, sizeof(T) as uint); 
 };
 
 // Ensures capacity for at least `minCapacity` elements, growing if needed.
