@@ -24,11 +24,6 @@ fn pub uint_print(val: uint) {
     print_uint(val);
 };
 
-fn pub gk_print<T>(pattern: str, val: ptr<T>) {
-    extern fn print_genik<T>(pattern: str, val: ptr<T>);
-    print_genik::<T>(pattern, val);
-};
-
 // print bool type
 fn pub bool_print(val: bool) {
     extern fn print_bool(val: bool);
@@ -39,4 +34,56 @@ fn pub bool_print(val: bool) {
 fn pub char_print(val: char) {
     extern fn print_char(val: char);
     print_char(val);
+};
+
+// only ever call with one additional argument
+fn printformat(arg: ...) {
+    if (typeof(arg.i0) == "str") {
+        str_print(arg.i0);
+    };
+
+    if (typeof(arg.i0) == "int" || typeof(arg.i0) == "i8") {
+        int_print(arg.i0 as int);
+    };
+
+    if (typeof(arg.i0) == "uint" || typeof(arg.i0) == "u8") {
+        uint_print(arg.i0 as uint);
+    };
+
+    if (typeof(arg.i0) == "bool") {
+        bool_print(arg.i0);
+    };
+
+    if (typeof(arg.i0) == "char") {
+        char_print(arg.i0);
+    };
+
+    if (typeof(arg.i0) == "ptr<String>") {
+        String_print(arg.i0);
+    } elseif (typeof(arg.i0) == "String") {
+        String_print(&(arg.i0));
+    };
+};
+
+fn pub print(inp: ...) {
+    var i = 0;
+    for (arg in inp) {
+        if (i < inp.il) {
+            printformat(arg);
+        };
+
+        i = i + 1;
+    };
+};
+
+fn pub println(inp: ...) {
+    var i = 0;
+    for (arg in inp) {
+        if (i < inp.il) {
+            printformat(arg);
+        };
+        i = i + 1;
+    };
+
+    char_print('\n');
 };

@@ -177,12 +177,14 @@ Basic functions to display values on the standard output console.
 | Function | Description |
 |----------|-------------|
 | `str_print(val: str)` | Prints a raw string literal |
-| `String_print(val: ptr<String>)` | Prints a managed `String` |
+| `String_print(val: ptr<String>)` | Prints a `String` |
 | `int_print(val: int)` | Prints a signed 64-bit integer |
 | `uint_print(val: uint)` | Prints an unsigned 64-bit integer |
 | `bool_print(val: bool)` | Prints `true` or `false` |
 | `char_print(val: char)` | Prints a single character |
-| `gk_print<T>(pattern: str, val: ptr<T>)` | Prints a generic based on a C-format pattern string (check runtime libraries implementation for supported patterns) |
+| `print(val: ...)` | Finds the type of the values and uses the other print functions to print each output (accepts infinite arguments) |
+| `println(val: ...)` | Finds the type of the values and uses the other print functions to print each output (accepts infinite arguments) as one line, printlning again will be on a new line |
+
 **Example:**
 
 ```mysz
@@ -191,6 +193,7 @@ use src::io;
 str_print("Hello, ");
 int_print(42);
 char_print('\n');
+print("Hello, I'm ", 4 as u8, " and this is mysz!");
 ```
 
 ---
