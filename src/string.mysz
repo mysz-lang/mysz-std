@@ -1,3 +1,5 @@
+use @::memory;
+
 struct String {
     length: uint,
     data: ptr<char>,
@@ -11,12 +13,29 @@ fn pub String_init(val: str): String {
 
 // free a String type
 fn pub String_destroy(val: ptr<String>) {
-    extern fn mysz_string_destroy(val: ptr<String>);
-    mysz_string_destroy(val);
+    if (typeof(val) == "nil") {
+        return;
+    };
+
+    mfree::<String>(val);
+    (^val).data = (^val).data as nil;
+    (^val).length = 0 as uint;
 };
 
 // compare two different String types' lengths and data (if lengths match)
 fn pub String_compare(a: ptr<String>, b: ptr<String>): int {
-    extern fn mysz_string_compare(a: ptr<String>, b: ptr<String>): int;
-    return mysz_string_compare(a, b);
+    var alen = (^a).length;
+    var blen = (^b).length;
+    if (alen != blen) {
+        return alen as int - blen as int;
+    };
+    var i: uint = 0 as uint;
+    while (i < alen) {
+        if ((^a).data[i] != (^b).data[i]) {
+            return ((^a).data[i] as u8 as int) - ((^b).data[i] as u8 as int);
+        };
+        
+        i = i + 1;
+    };
+    return 0;
 };

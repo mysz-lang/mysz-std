@@ -1,7 +1,7 @@
-use std::hash;
-use std::vec;
-use std::panic;
-use std::memory;
+use @::hash;
+use @::vec;
+use @::panic;
+use @::memory;
 
 // Hash Maps
 
