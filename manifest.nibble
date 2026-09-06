@@ -1,0 +1,6 @@
+at name="std" entry="src/lib.mysz" version="0.3.5" description="Mysz Standard Library" {
+    author "beataC <beatac@kittymail.com>"
+}
+
+dependencies {
+}
