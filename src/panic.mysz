@@ -1,4 +1,0 @@
-fn pub panic(message: str) {
-    extern fn mysz_panic(message: str);
-    mysz_panic(message);
-};

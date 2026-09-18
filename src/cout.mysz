@@ -1,23 +1,12 @@
 use @::io;
 use @::format;
-
-fn pub strlen(str: ptr<char>): uint {
-    var len: uint = 0;
-
-    while (str[len] != '\0') {
-        len = len + 1;
-    };
-
-    return len;
-};
+use @::string;
 
 fn pub print(handle: ptr<uint>, args: ...) {
     var i = 0;
     for (arg in args) {
         if (i < args.il) {
-            var type = typeof(arg);
-
-            var sarg = sform::<nil>(arg, type) as ptr<char>;
+            var sarg = sform::<arg>(arg) as ptr<char>;
             write::<char>(handle, sarg, strlen(sarg));
         };
         i = i + 1;
