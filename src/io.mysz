@@ -1,89 +1,65 @@
-use @::string;
+fn pub stdin(): ptr<uint> {
+    extern fn mysz_stdin(): ptr<uint>;
 
-// print str type
-fn pub str_print(val: str) {
-    extern fn print_str(val: str);
-    print_str(val);
+    return mysz_stdin();
 };
 
-// print String type
-fn pub String_print(val: ptr<String>) {
-    extern fn print_String(val: ptr<String>);
-    print_String(val);
+fn pub stdout(): ptr<uint> {
+    extern fn mysz_stdout(): ptr<uint>;
+
+    return mysz_stdout();
 };
 
-// print int type
-fn pub int_print(val: int) {
-    extern fn print_int(val: int);
-    print_int(val);
+fn pub stderr(): ptr<uint> {
+    extern fn mysz_stderr(): ptr<uint>;
+
+    return mysz_stderr();
 };
 
-// print uint type
-fn pub uint_print(val: uint) {
-    extern fn print_uint(val: uint);
-    print_uint(val);
+fn pub read<T>(
+    handle: ptr<uint>,
+    buffer: ptr<T>,
+    size: uint
+): uint {
+    extern fn mysz_read<T>(
+        handle: ptr<uint>,
+        buffer: ptr<T>,
+        size: uint
+    ): uint;
+
+    return mysz_read::<T>(handle, buffer, size);
 };
 
-// print bool type
-fn pub bool_print(val: bool) {
-    extern fn print_bool(val: bool);
-    print_bool(val);
+fn pub write<T>(
+    handle: ptr<uint>,
+    buffer: ptr<T>,
+    size: uint
+): uint {
+    extern fn mysz_write<T>(
+        handle: ptr<uint>,
+        buffer: ptr<T>,
+        size: uint
+    ): uint;
+
+    return mysz_write::<T>(handle, buffer, size);
 };
 
-// print char type
-fn pub char_print(val: char) {
-    extern fn print_char(val: char);
-    print_char(val);
+fn pub seek(
+    handle: ptr<uint>,
+    offset: int,
+    whence: int
+): int {
+    extern fn mysz_seek(
+        handle: ptr<uint>,
+        offset: int,
+        whence: int
+    ): int;
+
+    return mysz_seek(handle, offset, whence);
 };
 
-// only ever call with one additional argument
-fn printformat(arg: ...) {
-    if (typeof(arg.i0) == "str") {
-        str_print(arg.i0);
-    };
+fn pub close(handle: ptr<uint>): ptr<uint> {
+    extern fn mysz_close(handle: ptr<uint>): ptr<uint>;
 
-    if (typeof(arg.i0) == "int" || typeof(arg.i0) == "i8") {
-        int_print(arg.i0 as int);
-    };
-
-    if (typeof(arg.i0) == "uint" || typeof(arg.i0) == "u8") {
-        uint_print(arg.i0 as uint);
-    };
-
-    if (typeof(arg.i0) == "bool") {
-        bool_print(arg.i0);
-    };
-
-    if (typeof(arg.i0) == "char") {
-        char_print(arg.i0);
-    };
-
-    if (typeof(arg.i0) == "ptr<String>") {
-        String_print(arg.i0);
-    } elseif (typeof(arg.i0) == "String") {
-        String_print(&(arg.i0));
-    };
-};
-
-fn pub print(inp: ...) {
-    var i = 0;
-    for (arg in inp) {
-        if (i < inp.il) {
-            printformat(arg);
-        };
-
-        i = i + 1;
-    };
-};
-
-fn pub println(inp: ...) {
-    var i = 0;
-    for (arg in inp) {
-        if (i < inp.il) {
-            printformat(arg);
-        };
-        i = i + 1;
-    };
-
-    char_print('\n');
+    return mysz_close(handle);
 };

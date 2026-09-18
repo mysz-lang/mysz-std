@@ -1,0 +1,82 @@
+use @::memory;
+
+fn pub itos(arg: int): str {
+    if (arg == 0) {
+        return "0";
+    };
+
+    var negative = arg < 0;
+
+    if (negative) {
+        arg = -arg;
+    };
+
+    var digits = 1;
+    var n = arg;
+
+    while (n >= 10) {
+        n = n / 10;
+        digits = digits + 1;
+    };
+
+    if (negative) {
+        digits = digits + 1;
+    };
+
+    var result = malloc::<char>(digits + 1);
+
+    result[digits] = '\0';
+
+    var i = digits;
+
+    while (arg > 0) {
+        i = i - 1;
+
+        var digit = arg % 10;
+        result[i] = (digit + 48) as char;
+
+        arg = arg / 10;
+    };
+
+    if (negative) {
+        result[0] = '-' as char;
+    };
+
+    return result as str;
+};
+
+fn pub ftos(arg: double): str {
+    return "";
+};
+
+fn pub sform<T>(arg: T, type: str): str {
+    if (type == "str") {
+        return arg;
+    };
+
+    if (type == "int" || type == "uint" || type == "i8" || type == "u8") {
+        return itos(arg as int);
+    };
+
+    if (type == "bool") {
+        if (arg) {
+            return "true";
+        } else {
+            return "false";
+        };
+    };
+
+    if (type == "char") {
+        return arg as str;
+    };
+
+    if (type == "nil") {
+        return "{0}";
+    };
+
+    if (type == "double" || type == "float") {
+        return ftos(arg as double);
+    }
+
+    return "unknown";
+};

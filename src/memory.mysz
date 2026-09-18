@@ -1,23 +1,86 @@
-// allocate <size> bytes onto the heap
-fn pub malloc<T>(size: int): ptr<T> {
-    extern fn mysz_alloc<T>(size: int): ptr<T>;
-    return mysz_alloc::<T>(size);
+fn pub malloc<T>(size: uint): ptr<T> {
+    extern fn mysz_malloc<T>(size: uint): ptr<T>;
+
+    return mysz_malloc::<T>(size);
 };
 
-// allocation for easier working out onto the heap
-fn pub calloc<T>(count: int, size: int): ptr<T> {
-    extern fn mysz_calloc<T>(count: int, size: int): ptr<T>;
-    return mysz_calloc::<T>(count, size);
+fn pub realloc<T>(ptr: ptr<T>, size: uint): ptr<T> {
+    extern fn mysz_realloc<T>(ptr: ptr<T>, size: uint): ptr<T>;
+
+    return mysz_realloc::<T>(ptr, size);
 };
 
-// change the size of an allocation
-fn pub realloc<T>(val: ptr<T>, size: int) {
-    extern fn mysz_realloc<T>(val: ptr<T>, size: int);
-    mysz_realloc::<T>(val, size);
+fn pub calloc<T>(size: uint): ptr<T> {
+    extern fn mysz_malloc<T>(size: uint): ptr<T>;
+    extern fn mysz_memset<T>(
+        ptr: ptr<T>,
+        value: int,
+        size: uint
+    ): ptr<T>;
+
+    var ptr = mysz_malloc::<T>(size);
+
+    return mysz_memset::<T>(ptr, 0, size);
 };
 
-// free an allocation
-fn pub mfree<T>(val: ptr<T>) {
-    extern fn mysz_free<T>(val: ptr<T>);
-    mysz_free::<T>(val);
+fn pub mfree<T>(ptr: ptr<T>): ptr<T> {
+    extern fn mysz_free<T>(ptr: ptr<T>): ptr<T>;
+
+    return mysz_free::<T>(ptr);
+};
+
+fn pub memcpy<T, K>(
+    dest: ptr<T>,
+    src: ptr<K>,
+    size: uint
+): ptr<T> {
+    extern fn mysz_memcpy<T, K>(
+        dest: ptr<T>,
+        src: ptr<K>,
+        size: uint
+    ): ptr<T>;
+
+    return mysz_memcpy::<T, K>(dest, src, size);
+};
+
+fn pub memmove<T, K>(
+    dest: ptr<T>,
+    src: ptr<K>,
+    size: uint
+): ptr<T> {
+    extern fn mysz_memmove<T, K>(
+        dest: ptr<T>,
+        src: ptr<K>,
+        size: uint
+    ): ptr<T>;
+
+    return mysz_memmove::<T, K>(dest, src, size);
+};
+
+fn pub memset<T>(
+    ptr: ptr<T>,
+    value: int,
+    size: uint
+): ptr<T> {
+    extern fn mysz_memset<T>(
+        ptr: ptr<T>,
+        value: int,
+        size: uint
+    ): ptr<T>;
+
+    return mysz_memset::<T>(ptr, value, size);
+};
+
+fn pub memcmp<T, K>(
+    a: ptr<T>,
+    b: ptr<K>,
+    size: uint
+): int {
+    extern fn mysz_memcmp<T, K>(
+        a: ptr<T>,
+        b: ptr<K>,
+        size: uint
+    ): int;
+
+    return mysz_memcmp::<T, K>(a, b, size);
 };

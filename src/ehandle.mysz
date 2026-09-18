@@ -1,0 +1,5 @@
+fn pub exit(code: int): void {
+    extern fn mysz_exit(code: int);
+
+    mysz_exit(code);
+};
