@@ -24,7 +24,7 @@ fn pub itos(arg: int): str {
         digits = digits + 1;
     };
 
-    var result = malloc::<char>(digits + 1);
+    var result = malloc::<char>((digits + 1) as uint);
 
     result[digits] = '\0';
 

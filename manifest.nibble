@@ -1,4 +1,4 @@
-at name="std" entry="src/lib.mysz" version="0.4.0" description="Mysz Standard Library" {
+at name="std" entry="src/lib.mysz" version="0.4.1" description="Mysz Standard Library" {
     author "beataC <beatac@kittymail.com>"
 }
 
